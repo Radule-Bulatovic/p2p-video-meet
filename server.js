@@ -18,6 +18,10 @@ function saveVideoToFile(socketId, videoData) {
   const uploadDir = path.join(__dirname, "uploads");
   const filePath = path.join(uploadDir, fileName);
 
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
   fs.writeFile(filePath, videoData, "binary", (err) => {
     if (err) throw err;
     console.log(`Video saved for ${socketId}:`, fileName);

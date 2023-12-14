@@ -7,10 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Peer from "simple-peer";
 import io from "socket.io-client";
-import {
-  CloudDownload,
-  FiberManualRecord,
-} from "@material-ui/icons";
+import { CloudDownload, FiberManualRecord } from "@material-ui/icons";
 import { Box, Card } from "@material-ui/core";
 
 const socket = io.connect("http://localhost:5000");
@@ -26,7 +23,7 @@ function App() {
   const [name, setName] = useState("");
   const myVideo = useRef();
   const userVideo = useRef();
-  const connectionRef = useRef();  
+  const connectionRef = useRef();
 
   const recordingBlobs = useRef([]);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -102,7 +99,12 @@ function App() {
   };
 
   return (
-    <Box position={"relative"} width="100vw" height="100vh" bgcolor={"black"} zIndex={-2}>
+    <Box
+      position={"relative"}
+      width="100vw"
+      height="100vh"
+      bgcolor={"black"}
+    >
       <div className="video-container">
         <div className="video">
           {stream && (
@@ -111,7 +113,7 @@ function App() {
               muted
               ref={myVideo}
               autoPlay
-              style={{ width: "300px" }}
+              style={{ width: "300px", position: "absolute" }}
             />
           )}
         </div>
@@ -121,9 +123,13 @@ function App() {
               playsInline
               ref={userVideo}
               autoPlay
-              style={{ width: "100vw", height: "100vh", objectFit: "cover", position: "absolute", top: 0, left: 0, zIndex: -1 }}
+              style={{ width: "100vw", height: "100vh", objectFit: "cover" }}
             />
-          ) : null}
+          ) : (
+            <div
+              style={{ width: "100vw", height: "100vh", background: "black" }}
+            ></div>
+          )}
         </div>
       </div>
       <Card
@@ -200,6 +206,7 @@ function App() {
           translate: "-50% 0",
           display: "flex",
           gap: "1rem",
+          zIndex: 1,
         }}
       >
         <IconButton
@@ -243,7 +250,7 @@ function App() {
         <IconButton
           style={{ backgroundColor: "rgba(255,255,255,0.6)" }}
           onClick={() => {
-            socket.close()
+            socket.close();
           }}
         >
           hang up
